@@ -1,0 +1,18 @@
+# Dependency directories
+node_modules/
+dist/
+
+# Local History for Visual Studio Code
+.history/
+
+# VS Code
+.vscode/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
+
+# Mac files
+.DS_Store
