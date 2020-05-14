@@ -4,10 +4,14 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 module.exports = {
   watch: false,
   mode: "development",
-  entry: "./src/index.js",
+  entry: {
+    index: "./src/index.js",
+    login: "./src/login.js",
+  },
   output: {
-    filename: "main.js",
+    filename: "[name].js",
     path: path.resolve(__dirname, "dist"),
+    publicPath: "/",
   },
   module: {
     rules: [
@@ -27,6 +31,13 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: "src/index.html",
+      chunks: ["vendor", "index"],
+      filename: "index.html", //relative to root of the application
+    }),
+    new HtmlWebpackPlugin({
+      template: "src/index.html",
+      chunks: ["vendor", "login"],
+      filename: "login.html", //relative to root of the application
     }),
   ],
 };
