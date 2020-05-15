@@ -1,5 +1,5 @@
 // // Load custom css
-// @import "style/main";
+@import "style/main";
 // @import "style/toplevel";
 // @import "style/choosewidget";
 
@@ -8,7 +8,5 @@
 
 // Load bootstrap
 // @import "~bootswatch/dist/darkly/variables";
-// @import "~bootstrap/scss/bootstrap";
-// @import "~bootswatch/dist/darkly/bootswatch";
-
 @import "~bootstrap/scss/bootstrap";
+// @import "~bootswatch/dist/darkly/bootswatch";

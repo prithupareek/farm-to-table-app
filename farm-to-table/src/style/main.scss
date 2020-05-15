@@ -1,0 +1,20 @@
+// Makes sizing stuffs easier
+html {
+  box-sizing: border-box;
+}
+
+// Disable select
+body {
+  font-family: sans-serif;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+// Viewport 100% height
+html,
+body,
+#root {
+  height: 100%;
+}
