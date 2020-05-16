@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 
 // Import components
 import NavigationBar from "../NavigationBar";
-import Map from "./components/Map";
+import Map from "./components/Map/Map";
 
 class Dashboard extends React.Component {
   render() {
