@@ -30,6 +30,25 @@ app.use(session(sess));
 var dotenv = require("dotenv");
 dotenv.config();
 
+// connect to server with mongoose
+var mongoose = require("mongoose"),
+  Admin = mongoose.mongo.Admin;
+mongoose.connect(
+  "mongodb+srv://" +
+    process.env.MONGODB_USERNAME +
+    ":" +
+    process.env.MONGODB_PASSWORD +
+    "@farm-to-table-lmcdt.mongodb.net/test?retryWrites=true&w=majority",
+  { useNewUrlParser: true }
+);
+
+var db = mongoose.connection;
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", function () {
+  // we're connected!
+  console.log("Connected to MongoDB Atlas!!!");
+});
+
 // Load Passport
 var passport = require("passport");
 var Auth0Strategy = require("passport-auth0");
