@@ -39,7 +39,7 @@ mongoose.connect(
     ":" +
     process.env.MONGODB_PASSWORD +
     "@farm-to-table-lmcdt.mongodb.net/test?retryWrites=true&w=majority",
-  { useNewUrlParser: true }
+  { useNewUrlParser: true, useUnifiedTopology: true }
 );
 
 var db = mongoose.connection;
@@ -48,6 +48,26 @@ db.once("open", function () {
   // we're connected!
   console.log("Connected to MongoDB Atlas!!!");
 });
+
+// define a schema for how the data will look
+// const dbSchema = new mongoose.Schema({
+//   email: String,
+//   name: String,
+//   accountType: String,
+// });
+
+// const Model = mongoose.model("Model", dbSchema);
+
+// const testModel = new Model({
+//   email: "prithu.pareek2019@gmail.com",
+//   name: "Prithu Pareek",
+//   accountType: "farmer",
+// });
+
+// testModel
+//   .save()
+//   .then((doc) => console.log(doc))
+//   .catch((err) => console.log("Error: ", err));
 
 // Load Passport
 var passport = require("passport");
