@@ -30,6 +30,7 @@ app.use(session(sess));
 var dotenv = require("dotenv");
 dotenv.config();
 
+// connect to the database
 // connect to server with mongoose
 var mongoose = require("mongoose"),
   Admin = mongoose.mongo.Admin;
@@ -39,7 +40,10 @@ mongoose.connect(
     ":" +
     process.env.MONGODB_PASSWORD +
     "@farm-to-table-lmcdt.mongodb.net/test?retryWrites=true&w=majority",
-  { useNewUrlParser: true, useUnifiedTopology: true }
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  }
 );
 
 var db = mongoose.connection;
@@ -50,13 +54,16 @@ db.once("open", function () {
 });
 
 // define a schema for how the data will look
-// const dbSchema = new mongoose.Schema({
-//   email: String,
-//   name: String,
-//   accountType: String,
-// });
+const dbSchema = new mongoose.Schema({
+  email: String,
+  name: String,
+  accountType: String,
+  posts: Array,
+});
 
-// const Model = mongoose.model("Model", dbSchema);
+const Model = mongoose.model("Model", dbSchema);
+
+module.exports.Model = Model;
 
 // const testModel = new Model({
 //   email: "prithu.pareek2019@gmail.com",
