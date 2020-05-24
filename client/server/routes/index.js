@@ -9,7 +9,7 @@ router.get("/", secured(), (req, res) => {
   // console.log(req.user);
 
   // const userRes = Model.find({ email: req.user._json.email });
-  var Model = module.parent.exports.Model;
+  var Model = module.parent.parent.exports.Model;
 
   // console.log(userRes);
 

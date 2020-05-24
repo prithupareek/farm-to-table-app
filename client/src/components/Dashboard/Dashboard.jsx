@@ -5,20 +5,28 @@ import Col from "react-bootstrap/Col";
 
 import Modal from "react-bootstrap/Modal";
 import Container from "react-bootstrap/Container";
-import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
-import InputGroup from "react-bootstrap/InputGroup";
 
 // Import components
 import NavigationBar from "../NavigationBar";
 import Map from "./components/Map/Map";
 import NewPost from "./components/NewPost/NewPost";
+import NewPostBtn from "./components/NewPostBtn";
 
 class Dashboard extends React.Component {
   constructor(props) {
     super();
     // console.log(props);
+    // Bind the this context to the handler function
+    this.handler = this.handler.bind(this);
+
     this.state = { showNewPost: false };
+  }
+
+  // This method will be sent to the child component
+  handler() {
+    this.setState({
+      showNewPost: true,
+    });
   }
 
   render() {
@@ -35,14 +43,10 @@ class Dashboard extends React.Component {
                   </div>
                 </Col>
                 <Col>
-                  <div className="col-sm-12 my-auto text-center">
-                    <a
-                      className="btn btn-lg btn-outline-primary mx-auto"
-                      onClick={() => this.setState({ showNewPost: true })}
-                    >
-                      New Post
-                    </a>
-                  </div>
+                  <NewPostBtn
+                    accountType={this.props.user.accountType}
+                    action={this.handler}
+                  />
                 </Col>
                 <Col>
                   <div className="col-sm-12 my-auto text-center">
@@ -73,7 +77,7 @@ class Dashboard extends React.Component {
           <Modal.Body className="mt-n5">
             <Container className="text-left">
               <h4 className="font-weight-bold">New Post</h4>
-              <NewPost />
+              <NewPost accountType={this.props.user.accountType} />
             </Container>
           </Modal.Body>
         </Modal>
