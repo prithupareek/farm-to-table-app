@@ -15,7 +15,7 @@ import NewPostBtn from "./components/NewPostBtn";
 class Dashboard extends React.Component {
   constructor(props) {
     super();
-    // console.log(props);
+
     // Bind the this context to the handler function
     this.handler = this.handler.bind(this);
 

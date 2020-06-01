@@ -3,9 +3,9 @@ import ReactDOM from "react-dom";
 import "./style.scss";
 import Dashboard from "./components/Dashboard/Dashboard";
 
-require("./util/socket.js");
+var socket = require("./util/socket.js");
 
-// console.log(window.__INITIAL_STATE__.user);
+console.log(window.__INITIAL_STATE__.user);
 
 ReactDOM.render(
   <Dashboard user={window.__INITIAL_STATE__.user} />,

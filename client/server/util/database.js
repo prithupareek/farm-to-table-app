@@ -35,10 +35,14 @@ const Model = mongoose.model("Model", dbSchema);
 const server = module.parent.exports.server;
 var io = require("socket.io").listen(server);
 
-console.log(server);
+// console.log(server);
 
 io.on("connection", (socket) => {
   console.log("New client connected", socket.id);
+
+  socket.on("post submit", (postData) => {
+    console.log(postData);
+  });
 
   //   // makes sure the user is authorized before emitting socket stuff
   //   if (authCheck.isAuth(socket.request.session.passport)) {

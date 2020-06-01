@@ -7,6 +7,8 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 
+const emitter = require("../../../../../util/emitter.js");
+
 class ProducerPost extends React.Component {
   constructor(props) {
     super();
@@ -25,7 +27,8 @@ class ProducerPost extends React.Component {
     };
 
     this.submitPost = () => {
-      console.log(JSON.stringify(this.state));
+      emitter.emit("post submit", this.state);
+      // console.log(JSON.stringify(this.state));
     };
   }
 
