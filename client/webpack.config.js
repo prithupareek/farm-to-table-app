@@ -21,6 +21,7 @@ module.exports = {
     about: "./src/about.js",
     contact: "./src/contact.js",
     donate: "./src/donate.js",
+    comingsoon: "./src/comingsoon.js",
   },
   output: {
     filename: "[name].js",
@@ -71,6 +72,11 @@ module.exports = {
       template: "src/index.html",
       chunks: ["donate"],
       filename: "donate.html", //relative to root of the application
+    }),
+    new HtmlWebpackPlugin({
+      template: "src/index.html",
+      chunks: ["comingsoon"],
+      filename: "comingsoon.html", //relative to root of the application
     }),
   ],
 };
