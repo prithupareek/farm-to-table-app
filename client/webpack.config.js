@@ -2,6 +2,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const dotenv = require("dotenv");
 const webpack = require("webpack");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 // call dotenv and it will return an Object with a parsed key
 const env = dotenv.config().parsed;
@@ -48,6 +49,7 @@ module.exports = {
   },
   plugins: [
     new webpack.DefinePlugin(envKeys),
+    new CopyWebpackPlugin([{ from: "public", to: "public" }]),
     new HtmlWebpackPlugin({
       template: "src/index.html",
       chunks: ["index"],

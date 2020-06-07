@@ -104,12 +104,7 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
-// app.use(
-//   "/",
-//   express.static("./dist", {
-//     index: "index.html",
-//   })
-// );
+app.use("/public", express.static("./dist/public"));
 
 if (process.env.UNDER_CONSTRUCTION == "true") {
   var comingSoonRouter = require("./routes/comingsoon");
