@@ -23,3 +23,23 @@ body,
   width: 100%;
   height: 100%;
 }
+
+.blur-bg {
+  background-image: url("https://static01.nyt.com/images/2019/09/18/multimedia/18sp-ff-agaerial-1/merlin_160680195_20fda3dc-73f3-4b71-adfb-8e336581e045-superJumbo.jpg?quality=90&auto=webp");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100vh;
+  width: 100vw;
+  filter: blur(5px);
+  -webkit-filter: blur(5px);
+}
+
+.iframe-container iframe {
+  border: 0;
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
