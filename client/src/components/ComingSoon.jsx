@@ -13,7 +13,11 @@ class Login extends React.Component {
           <Col className="d-flex flex-column h-100">
             <Row className="d-flex pt-5">
               <div className="col-sm-12 my-auto text-center">
-                <h1>Farm to Table</h1>
+                <img
+                  src="/public/assets/farmtotable-logo.png"
+                  style={{ width: "30%", height: "auto" }}
+                  className="d-inline-block align-middle"
+                />
                 <h3>Something really great is coming soon!</h3>
                 <h5>Follow us on social media to stay tuned for updates.</h5>
               </div>
