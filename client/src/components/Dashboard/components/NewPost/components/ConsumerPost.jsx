@@ -24,6 +24,7 @@ class ProducerPost extends React.Component {
       state: "",
       zip: "",
       needTransport: false,
+      userEmail: props.userEmail,
     };
 
     this.submitPost = () => {

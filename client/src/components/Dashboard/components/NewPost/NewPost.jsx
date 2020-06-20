@@ -6,7 +6,7 @@ import ConsumerPost from "./components/ConsumerPost";
 class NewPost extends React.Component {
   constructor(props) {
     super();
-    console.log(props);
+    // console.log(props);
   }
 
   render() {
@@ -14,13 +14,13 @@ class NewPost extends React.Component {
     if (this.props.accountType == "producer") {
       return (
         <>
-          <ProducerPost />
+          <ProducerPost userEmail={this.props.userEmail} />
         </>
       );
     } else if (this.props.accountType == "consumer") {
       return (
         <>
-          <ConsumerPost />
+          <ConsumerPost userEmail={this.props.userEmail} />
         </>
       );
     }

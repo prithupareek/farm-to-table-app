@@ -22,47 +22,64 @@ db.once("open", function () {
 });
 
 // define a schema for how the data will look
-const dbSchema = new mongoose.Schema({
-  email: String,
-  name: String,
-  accountType: String,
-  posts: Array,
-});
+const dbSchema = new mongoose.Schema(
+  {
+    email: String,
+    name: String,
+    accountType: String,
+    posts: Array,
+  },
+  { collection: "models" }
+);
 
 const Model = mongoose.model("Model", dbSchema);
+
+const postDbSchema = new mongoose.Schema(
+  {
+    postName: String,
+    postDesc: String,
+    price: String,
+    ammount: String,
+    address: String,
+    address2: String,
+    city: String,
+    state: String,
+    zip: String,
+    needTransport: Boolean,
+    userEmail: String,
+  },
+  { collection: "posts" }
+);
+
+const PostModel = mongoose.model("Post", postDbSchema);
 
 // open a websocket to connect to the client
 const server = module.parent.exports.server;
 var io = require("socket.io").listen(server);
-
-// console.log(server);
 
 io.on("connection", (socket) => {
   console.log("New client connected", socket.id);
 
   socket.on("post submit", (postData) => {
     console.log(postData);
+
+    const post = new PostModel({
+      postName: postData.postName,
+      postDesc: postData.postDesc,
+      price: postData.price,
+      ammount: postData.ammount,
+      address: postData.address,
+      address2: postData.address2,
+      city: postData.city,
+      state: postData.state,
+      zip: postData.zip,
+      needTransport: postData.needTransport,
+      userEmail: postData.userEmail,
+    });
+
+    post.save();
   });
-
-  //   // makes sure the user is authorized before emitting socket stuff
-  //   if (authCheck.isAuth(socket.request.session.passport)) {
-  //     // Send initial RAM state
-  //     socket.emit("ramState", ramstate);
-  //     socket.emit("paramUpdate", ramparams);
-
-  //     // emit an event to the socket if you recieve an event from the emmitter
-  //     emitter.on("data recieved", (hookData) => {
-  //       socket.emit("dataRecieved", hookData);
-  //     });
-
-  //     emitter.on("ram state", () => {
-  //       socket.emit("ramState", ramstate);
-  //     });
-
-  //     emitter.on("param update", () => {
-  //       socket.emit("paramUpdate", ramparams);
-  //     });
-  //   }
 });
 
-module.exports = Model;
+module.exports.Model = Model;
+module.exports.PostModel = PostModel;

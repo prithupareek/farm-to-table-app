@@ -77,7 +77,10 @@ class Dashboard extends React.Component {
           <Modal.Body className="mt-n5">
             <Container className="text-left">
               <h4 className="font-weight-bold">New Post</h4>
-              <NewPost accountType={this.props.user.accountType} />
+              <NewPost
+                accountType={this.props.user.accountType}
+                userEmail={this.props.user.email}
+              />
             </Container>
           </Modal.Body>
         </Modal>

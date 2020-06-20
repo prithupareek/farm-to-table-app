@@ -75,7 +75,8 @@ server.listen(port, () =>
 module.exports.server = server;
 
 // connect to database
-var Model = require("./util/database.js");
-module.exports.Model = Model;
+var database = require("./util/database.js");
+module.exports.Model = database.Model;
+module.exports.PostModel = database.PostModel;
 
 require("./routes.js");
