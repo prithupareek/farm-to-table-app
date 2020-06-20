@@ -47,6 +47,7 @@ const postDbSchema = new mongoose.Schema(
     zip: String,
     needTransport: Boolean,
     userEmail: String,
+    postType: String,
   },
   { collection: "posts" }
 );
@@ -75,6 +76,7 @@ io.on("connection", (socket) => {
       zip: postData.zip,
       needTransport: postData.needTransport,
       userEmail: postData.userEmail,
+      postType: postData.postType,
     });
 
     post.save();

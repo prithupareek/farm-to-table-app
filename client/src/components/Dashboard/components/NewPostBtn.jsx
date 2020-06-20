@@ -11,7 +11,7 @@ class NewPostBtn extends Component {
   }
 
   render() {
-    if (this.props.accountType == "shipper") return <></>;
+    if (this.props.accountType == "distributor") return <></>;
     else {
       return (
         <div className="col-sm-12 my-auto text-center">

@@ -1,7 +1,7 @@
 import React from "react";
 
-import ProducerPost from "./components/ProducerPost";
-import ConsumerPost from "./components/ConsumerPost";
+import GrowerPost from "./components/GrowerPost";
+import FoodBankPost from "./components/FoodbankPost";
 
 class NewPost extends React.Component {
   constructor(props) {
@@ -11,16 +11,19 @@ class NewPost extends React.Component {
 
   render() {
     // load different post pages based on account type
-    if (this.props.accountType == "producer") {
+    if (this.props.accountType == "grower") {
       return (
         <>
-          <ProducerPost userEmail={this.props.userEmail} />
+          <GrowerPost userEmail={this.props.userEmail} postType={"grower"} />
         </>
       );
-    } else if (this.props.accountType == "consumer") {
+    } else if (this.props.accountType == "foodbank") {
       return (
         <>
-          <ConsumerPost userEmail={this.props.userEmail} />
+          <FoodbankPost
+            userEmail={this.props.userEmail}
+            postType={"foodbank"}
+          />
         </>
       );
     }

@@ -9,7 +9,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 
 const emitter = require("../../../../../util/emitter.js");
 
-class ProducerPost extends React.Component {
+class GrowerPost extends React.Component {
   constructor(props) {
     super();
     // console.log(props);
@@ -25,6 +25,7 @@ class ProducerPost extends React.Component {
       zip: "",
       needTransport: false,
       userEmail: props.userEmail,
+      postType: props.postType,
     };
 
     this.submitPost = () => {
@@ -174,4 +175,4 @@ class ProducerPost extends React.Component {
   }
 }
 
-export default ProducerPost;
+export default GrowerPost;

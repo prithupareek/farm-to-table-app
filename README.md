@@ -1,5 +1,5 @@
 # Farm to Table
-* Platform to connect food producers, transporters, and buyers.
+* Platform to connect food growers, distributors, and food banks.
 
 # Instructions
 ## Branch Usage
