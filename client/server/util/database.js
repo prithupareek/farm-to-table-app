@@ -1,4 +1,5 @@
 // connect to the database
+
 // connect to server with mongoose
 var mongoose = require("mongoose"),
   Admin = mongoose.mongo.Admin;
@@ -48,6 +49,8 @@ const postDbSchema = new mongoose.Schema(
     needTransport: Boolean,
     userEmail: String,
     postType: String,
+    lat: Number,
+    long: Number,
   },
   { collection: "posts" }
 );
@@ -64,22 +67,73 @@ io.on("connection", (socket) => {
   socket.on("post submit", (postData) => {
     console.log(postData);
 
-    const post = new PostModel({
-      postName: postData.postName,
-      postDesc: postData.postDesc,
-      price: postData.price,
-      ammount: postData.ammount,
-      address: postData.address,
-      address2: postData.address2,
-      city: postData.city,
-      state: postData.state,
-      zip: postData.zip,
-      needTransport: postData.needTransport,
-      userEmail: postData.userEmail,
-      postType: postData.postType,
-    });
+    // convert the address into coordinates
+    var addressString;
+    if (postData.address2 == "") {
+      addressString =
+        postData.address +
+        ", " +
+        postData.city +
+        ", " +
+        postData.state +
+        " " +
+        postData.zip;
+    } else {
+      addressString =
+        postData.address +
+        ", " +
+        postData.address2 +
+        ", " +
+        postData.city +
+        ", " +
+        postData.state +
+        " " +
+        postData.zip;
+    }
 
-    post.save();
+    // console.log(addressString);
+
+    var url = encodeURI(
+      "https://api.mapbox.com/geocoding/v5/mapbox.places/" +
+        addressString +
+        ".json?access_token=" +
+        process.env.REACT_APP_MAPBOX_TOKEN
+    );
+
+    // make http request to mapbox geocoder
+    const https = require("https");
+
+    https.get(url, (res) => {
+      let data = "";
+
+      // A chunk of data has been recieved.
+      res.on("data", (chunk) => {
+        data += chunk;
+      });
+
+      res.on("end", () => {
+        var coordinates = JSON.parse(data).features[0].center;
+
+        const post = new PostModel({
+          postName: postData.postName,
+          postDesc: postData.postDesc,
+          price: postData.price,
+          ammount: postData.ammount,
+          address: postData.address,
+          address2: postData.address2,
+          city: postData.city,
+          state: postData.state,
+          zip: postData.zip,
+          needTransport: postData.needTransport,
+          userEmail: postData.userEmail,
+          postType: postData.postType,
+          lat: coordinates[0],
+          long: coordinates[1],
+        });
+
+        post.save();
+      });
+    });
   });
 });
 

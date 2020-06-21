@@ -7,6 +7,7 @@ mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 class Map extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       lng: 5,
       lat: 34,
@@ -21,6 +22,8 @@ class Map extends React.Component {
       center: [this.state.lng, this.state.lat],
       zoom: this.state.zoom,
     });
+
+    var marker = new mapboxgl.Marker().setLngLat([30.5, 50.5]).addTo(map);
 
     map.on("move", () => {
       this.setState({

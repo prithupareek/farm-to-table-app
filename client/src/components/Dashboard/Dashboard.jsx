@@ -60,7 +60,7 @@ class Dashboard extends React.Component {
                 </Col>
               </Row>
               <Row className="flex-fill">
-                <Map />
+                <Map posts={this.props.posts} />
               </Row>
             </Col>
           </Row>

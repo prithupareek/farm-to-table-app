@@ -1,7 +1,7 @@
 import React from "react";
 
 import GrowerPost from "./components/GrowerPost";
-import FoodBankPost from "./components/FoodbankPost";
+import FoodbankPost from "./components/FoodbankPost";
 
 class NewPost extends React.Component {
   constructor(props) {

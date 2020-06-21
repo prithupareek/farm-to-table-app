@@ -14,23 +14,24 @@ router.get("/", secured(), (req, res) => {
     // console.log(users[0].name); // 'A'
     const user = users[0];
 
-    siteController.render("index.js", {
-      user: user,
-    })(req, res);
-
     var PostModel = module.parent.parent.exports.PostModel;
 
+    var postTypeName;
+
     if (user.accountType == "grower") {
-      PostModel.find({ postType: "foodbank" }).then((posts) => {
-        console.log(posts);
-      });
+      postTypeName = "foodbank";
     } else if (user.accountType == "foodbank") {
-      PostModel.find({ postType: "grower" }).then((posts) => {
-        console.log(posts);
-      });
+      postTypeName = "grower";
     } else {
-      console.log("Distributor Posts");
+      postTypeName = "";
     }
+
+    PostModel.find({ postType: postTypeName }).then((posts) => {
+      siteController.render("index.js", {
+        user: user,
+        posts: posts,
+      })(req, res);
+    });
   });
 });
 
