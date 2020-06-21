@@ -127,8 +127,8 @@ io.on("connection", (socket) => {
           needTransport: postData.needTransport,
           userEmail: postData.userEmail,
           postType: postData.postType,
-          lat: coordinates[0],
-          long: coordinates[1],
+          long: coordinates[0],
+          lat: coordinates[1],
         });
 
         post.save();

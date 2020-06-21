@@ -23,7 +23,19 @@ class Map extends React.Component {
       zoom: this.state.zoom,
     });
 
-    var marker = new mapboxgl.Marker().setLngLat([30.5, 50.5]).addTo(map);
+    var markerArray = [];
+
+    // get all the posts
+    this.props.posts.forEach((post) => {
+      // console.log(post.lat);
+      // console.log(post.long);
+
+      markerArray.push(
+        new mapboxgl.Marker().setLngLat([post.long, post.lat]).addTo(map)
+      );
+    });
+
+    // var marker = new mapboxgl.Marker().setLngLat([30.5, 50.5]).addTo(map);
 
     map.on("move", () => {
       this.setState({
