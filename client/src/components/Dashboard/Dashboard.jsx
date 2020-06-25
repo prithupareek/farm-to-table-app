@@ -12,6 +12,7 @@ import Map from "./components/Map/Map";
 import NewPost from "./components/NewPost/NewPost";
 import NewPostBtn from "./components/NewPostBtn";
 import PostDetails from "./components/PostDetails/PostDetails";
+import SearchBar from "./components/SearchBar/SearchBar";
 
 class Dashboard extends React.Component {
   constructor(props) {
@@ -87,6 +88,11 @@ class Dashboard extends React.Component {
                     </a>
                   </div>
                 </Col>
+              </Row>
+              <Row className="mt-2 mb-2 ml-2 mr-2">
+                <div className="col-sm-12 my-auto text-center">
+                  <SearchBar></SearchBar>
+                </div>
               </Row>
               <Row className="flex-fill">
                 <Map posts={this.props.posts} action={this.markerHandler} />
