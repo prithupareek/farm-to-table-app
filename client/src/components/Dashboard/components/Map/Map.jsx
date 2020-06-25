@@ -2,6 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import mapboxgl from "mapbox-gl";
 
+const emitter = require("../../../../util/emitter.js");
+
 mapboxgl.accessToken = process.env.REACT_APP_MAPBOX_TOKEN;
 
 class Map extends React.Component {
@@ -27,15 +29,17 @@ class Map extends React.Component {
 
     // get all the posts
     this.props.posts.forEach((post) => {
-      // console.log(post.lat);
-      // console.log(post.long);
+      var marker = new mapboxgl.Marker()
+        .setLngLat([post.long, post.lat])
+        .addTo(map);
 
-      markerArray.push(
-        new mapboxgl.Marker().setLngLat([post.long, post.lat]).addTo(map)
-      );
+      markerArray.push(marker);
+
+      marker.getElement().addEventListener("click", () => {
+        // alert("Clicked on " + post.long + ", " + post.lat);
+        this.props.action(post);
+      });
     });
-
-    // var marker = new mapboxgl.Marker().setLngLat([30.5, 50.5]).addTo(map);
 
     map.on("move", () => {
       this.setState({
