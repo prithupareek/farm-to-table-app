@@ -1,12 +1,8 @@
 import React from "react";
-
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-
 import Modal from "react-bootstrap/Modal";
 import Container from "react-bootstrap/Container";
-
-// Import components
 import NavigationBar from "../NavigationBar";
 import Map from "./components/Map/Map";
 import NewPost from "./components/NewPost/NewPost";
@@ -14,9 +10,11 @@ import NewPostBtn from "./components/NewPostBtn";
 import PostDetails from "./components/PostDetails/PostDetails";
 import SearchBar from "./components/SearchBar/SearchBar";
 
+const emitter = require("../../util/emitter.js");
+
 class Dashboard extends React.Component {
   constructor(props) {
-    super();
+    super(props);
 
     // Bind the this context to the handler function
     this.handler = this.handler.bind(this);
@@ -42,6 +40,7 @@ class Dashboard extends React.Component {
         long: 0,
         lat: 0,
       },
+      posts: this.props.posts,
     };
   }
 
@@ -56,6 +55,13 @@ class Dashboard extends React.Component {
     this.setState({
       showMarker: true,
       postDetails: post,
+    });
+  }
+
+  componentDidMount() {
+    emitter.on("search result", (res) => {
+      this.setState({ posts: res });
+      console.log(this.state.posts);
     });
   }
 
@@ -89,13 +95,13 @@ class Dashboard extends React.Component {
                   </div>
                 </Col>
               </Row>
-              <Row className="mt-2 mb-2 ml-2 mr-2">
+              <Row className="mt-2 mb-2 ml-5 mr-5">
                 <div className="col-sm-12 my-auto text-center">
                   <SearchBar></SearchBar>
                 </div>
               </Row>
               <Row className="flex-fill">
-                <Map posts={this.props.posts} action={this.markerHandler} />
+                <Map posts={this.state.posts} action={this.markerHandler} />
               </Row>
             </Col>
           </Row>

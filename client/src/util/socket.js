@@ -16,3 +16,14 @@ socket.on("connect", () => {
 emitter.on("post submit", (postData) => {
   socket.emit("post submit", postData);
 });
+
+// when a search is made
+emitter.on("search submit", (query) => {
+  socket.emit("search submit", query);
+  // console.log(query);
+});
+
+socket.on("search result", (res) => {
+  emitter.emit("search result", res);
+  // console.log(res);
+});

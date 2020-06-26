@@ -14,6 +14,7 @@ class Map extends React.Component {
       lng: 5,
       lat: 34,
       zoom: 2,
+      markers: [],
     };
   }
 
@@ -25,7 +26,9 @@ class Map extends React.Component {
       zoom: this.state.zoom,
     });
 
-    var markerArray = [];
+    this.setState({ map: map });
+
+    var markerList = [];
 
     // get all the posts
     this.props.posts.forEach((post) => {
@@ -33,13 +36,15 @@ class Map extends React.Component {
         .setLngLat([post.long, post.lat])
         .addTo(map);
 
-      markerArray.push(marker);
+      markerList.push(marker);
 
       marker.getElement().addEventListener("click", () => {
         // alert("Clicked on " + post.long + ", " + post.lat);
         this.props.action(post);
       });
     });
+
+    this.setState({ markers: markerList });
 
     map.on("move", () => {
       this.setState({
@@ -48,6 +53,31 @@ class Map extends React.Component {
         zoom: map.getZoom().toFixed(2),
       });
     });
+  }
+
+  componentWillReceiveProps(nextProps, nextContext) {
+    console.log(this.state);
+    this.state.markers.forEach((marker) => {
+      marker.remove();
+    });
+
+    var markerList = [];
+
+    // get all the posts
+    nextProps.posts.forEach((post) => {
+      var marker = new mapboxgl.Marker()
+        .setLngLat([post.long, post.lat])
+        .addTo(this.state.map);
+
+      markerList.push(marker);
+
+      marker.getElement().addEventListener("click", () => {
+        // alert("Clicked on " + post.long + ", " + post.lat);
+        this.props.action(post);
+      });
+    });
+
+    this.setState({ markers: markerList });
   }
 
   render() {

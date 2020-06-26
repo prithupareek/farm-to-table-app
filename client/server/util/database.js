@@ -55,6 +55,15 @@ const postDbSchema = new mongoose.Schema(
   { collection: "posts" }
 );
 
+// postDbSchema.index({
+//   postName: "text",
+//   postDesc: "text",
+//   address: "text",
+//   address2: "text",
+//   city: "text",
+//   state: "text",
+// });
+
 const PostModel = mongoose.model("Post", postDbSchema);
 
 // open a websocket to connect to the client
@@ -132,6 +141,95 @@ io.on("connection", (socket) => {
         });
 
         post.save();
+      });
+    });
+  });
+
+  // when a search is made
+  socket.on("search submit", (query) => {
+    console.log(query);
+
+    var res = new Set();
+
+    // searches through the mongodb database (fuzzy)
+    PostModel.find({ postName: { $regex: query, $options: "i" } }, function (
+      err,
+      docs
+    ) {
+      console.log("PostName Search");
+      // console.log(docs);
+
+      docs.forEach((post) => {
+        res.add(JSON.stringify(post));
+      });
+
+      PostModel.find({ postDesc: { $regex: query, $options: "i" } }, function (
+        err,
+        docs
+      ) {
+        console.log("PostDesc Search");
+        // console.log(docs);
+
+        docs.forEach((post) => {
+          res.add(JSON.stringify(post));
+        });
+
+        PostModel.find({ address: { $regex: query, $options: "i" } }, function (
+          err,
+          docs
+        ) {
+          console.log("Address Search");
+          // console.log(docs);
+
+          docs.forEach((post) => {
+            res.add(JSON.stringify(post));
+          });
+
+          PostModel.find(
+            { address2: { $regex: query, $options: "i" } },
+            function (err, docs) {
+              console.log("Address2 Search");
+              // console.log(docs);
+
+              docs.forEach((post) => {
+                res.add(JSON.stringify(post));
+              });
+
+              PostModel.find(
+                { city: { $regex: query, $options: "i" } },
+                function (err, docs) {
+                  console.log("City Search");
+                  // console.log(docs);
+
+                  docs.forEach((post) => {
+                    res.add(JSON.stringify(post));
+                  });
+
+                  PostModel.find(
+                    { state: { $regex: query, $options: "i" } },
+                    function (err, docs) {
+                      console.log("State Search");
+                      // console.log(docs);
+
+                      docs.forEach((post) => {
+                        res.add(JSON.stringify(post));
+                      });
+
+                      // console.log(res);
+                      var postJSONS = [];
+                      res.forEach((string) => {
+                        postJSONS.push(JSON.parse(string));
+                      });
+                      // console.log(postJSONS);
+
+                      socket.emit("search result", postJSONS);
+                    }
+                  );
+                }
+              );
+            }
+          );
+        });
       });
     });
   });
