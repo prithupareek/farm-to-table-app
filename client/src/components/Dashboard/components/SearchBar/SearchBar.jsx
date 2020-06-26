@@ -16,9 +16,11 @@ class SearchBar extends Component {
     };
 
     this.search = () => {
-      emitter.emit("search submit", this.state.query);
-      this.setState({ query: this.state.query, showCancel: true });
-      console.log(this.state);
+      if (!(this.state.query == "")) {
+        emitter.emit("search submit", this.state.query);
+        this.setState({ query: this.state.query, showCancel: true });
+        console.log(this.state);
+      }
     };
 
     this.clearSearch = () => {
@@ -29,6 +31,13 @@ class SearchBar extends Component {
       emitter.emit("search submit", this.state.query);
       console.log(this.state);
     };
+
+    // this.handleKeyPress = (target) => {
+    //   if (target.charCode == 13) {
+    //     this.search();
+    //     alert("enter pressed");
+    //   }
+    // };
   }
 
   render() {
@@ -40,6 +49,12 @@ class SearchBar extends Component {
               <Form.Control
                 placeholder=""
                 ref="search"
+                onKeyPress={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    this.search();
+                  }
+                }}
                 onChange={(event) => {
                   this.state.query = event.target.value;
                 }}
