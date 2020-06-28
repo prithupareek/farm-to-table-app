@@ -8,16 +8,30 @@ const path = require("path");
 router.get("/", secured(), (req, res) => {
   // console.log(req.user);
 
-  // const userRes = Model.find({ email: req.user._json.email });
-  var Model = module.parent.exports.Model;
-
-  // console.log(userRes);
+  var Model = module.parent.parent.exports.Model;
 
   Model.find({ email: req.user._json.email }).then((users) => {
     // console.log(users[0].name); // 'A'
-    siteController.render("index.js", {
-      user: users[0],
-    })(req, res);
+    const user = users[0];
+
+    var PostModel = module.parent.parent.exports.PostModel;
+
+    var postTypeName;
+
+    if (user.accountType == "grower") {
+      postTypeName = "foodbank";
+    } else if (user.accountType == "foodbank") {
+      postTypeName = "grower";
+    } else {
+      postTypeName = "";
+    }
+
+    PostModel.find({ postType: postTypeName }).then((posts) => {
+      siteController.render("index.js", {
+        user: user,
+        posts: posts,
+      })(req, res);
+    });
   });
 });
 

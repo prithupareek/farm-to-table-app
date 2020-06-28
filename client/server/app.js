@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
-module.exports = app;
+module.exports.app = app;
 
 var session = require("express-session");
 
@@ -29,52 +29,6 @@ app.use(session(sess));
 // Load environment variables from .env
 var dotenv = require("dotenv");
 dotenv.config();
-
-// connect to the database
-// connect to server with mongoose
-var mongoose = require("mongoose"),
-  Admin = mongoose.mongo.Admin;
-mongoose.connect(
-  "mongodb+srv://" +
-    process.env.MONGODB_USERNAME +
-    ":" +
-    process.env.MONGODB_PASSWORD +
-    "@farm-to-table-lmcdt.mongodb.net/test?retryWrites=true&w=majority",
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
-
-var db = mongoose.connection;
-db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function () {
-  // we're connected!
-  console.log("Connected to MongoDB Atlas!!!");
-});
-
-// define a schema for how the data will look
-const dbSchema = new mongoose.Schema({
-  email: String,
-  name: String,
-  accountType: String,
-  posts: Array,
-});
-
-const Model = mongoose.model("Model", dbSchema);
-
-module.exports.Model = Model;
-
-// const testModel = new Model({
-//   email: "prithu.pareek2019@gmail.com",
-//   name: "Prithu Pareek",
-//   accountType: "farmer",
-// });
-
-// testModel
-//   .save()
-//   .then((doc) => console.log(doc))
-//   .catch((err) => console.log("Error: ", err));
 
 // Load Passport
 var passport = require("passport");
@@ -111,25 +65,18 @@ passport.deserializeUser(function (user, done) {
   done(null, user);
 });
 
-// app.use(
-//   "/",
-//   express.static("./dist", {
-//     index: "index.html",
-//   })
-// );
+var http = require("http");
+var server = http.createServer(app);
 
-var authRouter = require("./routes/auth");
-var indexRouter = require("./routes/index");
-var loginRouter = require("./routes/login");
-var aboutRouter = require("./routes/about");
-var contactRouter = require("./routes/contact");
-var donateRouter = require("./routes/donate");
+server.listen(port, () =>
+  console.log(`Example app listening on port ${port}!`)
+);
 
-app.use("/", authRouter);
-app.use("/", loginRouter);
-app.use("/", indexRouter);
-app.use("/", aboutRouter);
-app.use("/", contactRouter);
-app.use("/", donateRouter);
+module.exports.server = server;
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+// connect to database
+var database = require("./util/database.js");
+module.exports.Model = database.Model;
+module.exports.PostModel = database.PostModel;
+
+require("./routes.js");
