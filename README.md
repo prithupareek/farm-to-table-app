@@ -5,6 +5,7 @@
 ## Branch Usage
 Branches are used as follows:
 * 'master'  - main branch, stable development of the webserver
+* 'release' - branch that is currently live on farm-table-app.com
 * other branches can be made as needed to test development of subsystems
 
 ## Instructions
@@ -33,7 +34,7 @@ The server runs on port 3000. You can access it by going to [localhost:3000](htt
 > Note: To run the webserver on your machine, you need to add the .env secret file in the ```client``` directory of the webserver manually. Contact @prithupareek for the file.
 
 ### Deploying
-The master branch contains the most up-to-date code for the webserver. To deploy onto aws ssh into it using the aws script in the repo and git pull master. You will need the .pem file for this to work. Contact @prithupareek for this. You can then temporarily run the site using these commands:
+The master branch contains the most up-to-date code for the webserver. To deploy onto aws, first merge master into release and then ssh into the aws ec2 isntance using the aws script in the repo and git pull release. You will need the .pem file for this to work. Contact @prithupareek for this. You can then temporarily run the site using these commands:
 
 1. Build the NodeJS Dependencies
 ```bash
