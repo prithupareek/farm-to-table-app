@@ -39,14 +39,18 @@ const postDbSchema = new mongoose.Schema(
   {
     postName: String,
     postDesc: String,
-    price: String,
+    produceBudget: String,
+    distributorBudget: String,
     ammount: String,
     address: String,
     address2: String,
     city: String,
     state: String,
     zip: String,
-    needTransport: Boolean,
+    needDistributor: Boolean,
+    startDate: String,
+    endDate: String,
+    produceType: String,
     userEmail: String,
     postType: String,
     lat: Number,
@@ -54,15 +58,6 @@ const postDbSchema = new mongoose.Schema(
   },
   { collection: "posts" }
 );
-
-// postDbSchema.index({
-//   postName: "text",
-//   postDesc: "text",
-//   address: "text",
-//   address2: "text",
-//   city: "text",
-//   state: "text",
-// });
 
 const PostModel = mongoose.model("Post", postDbSchema);
 
@@ -126,14 +121,18 @@ io.on("connection", (socket) => {
         const post = new PostModel({
           postName: postData.postName,
           postDesc: postData.postDesc,
-          price: postData.price,
+          produceBudget: postData.produceBudget,
+          distributorBudget: postData.distributorBudget,
           ammount: postData.ammount,
           address: postData.address,
           address2: postData.address2,
           city: postData.city,
           state: postData.state,
           zip: postData.zip,
-          needTransport: postData.needTransport,
+          needDistributor: postData.needDistributor,
+          startDate: postData.startDate,
+          endDate: postData.endDate,
+          produceType: postData.produceType,
           userEmail: postData.userEmail,
           postType: postData.postType,
           long: coordinates[0],
@@ -215,14 +214,26 @@ io.on("connection", (socket) => {
                         res.add(JSON.stringify(post));
                       });
 
-                      // console.log(res);
-                      var postJSONS = [];
-                      res.forEach((string) => {
-                        postJSONS.push(JSON.parse(string));
-                      });
-                      // console.log(postJSONS);
+                      PostModel.find(
+                        { produceType: { $regex: query, $options: "i" } },
+                        function (err, docs) {
+                          console.log("State Search");
+                          // console.log(docs);
 
-                      socket.emit("search result", postJSONS);
+                          docs.forEach((post) => {
+                            res.add(JSON.stringify(post));
+                          });
+
+                          // console.log(res);
+                          var postJSONS = [];
+                          res.forEach((string) => {
+                            postJSONS.push(JSON.parse(string));
+                          });
+                          // console.log(postJSONS);
+
+                          socket.emit("search result", postJSONS);
+                        }
+                      );
                     }
                   );
                 }

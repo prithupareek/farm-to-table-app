@@ -16,14 +16,18 @@ class GrowerPost extends React.Component {
     this.state = {
       postName: "",
       postDesc: "",
-      price: "",
+      produceBudget: "",
+      distributorBudget: "",
       ammount: "",
       address: "",
       address2: "",
       city: "",
       state: "",
       zip: "",
-      needTransport: false,
+      needDistributor: false,
+      startDate: "",
+      endDate: "",
+      produceType: "",
       userEmail: props.userEmail,
       postType: props.postType,
     };
@@ -83,10 +87,28 @@ class GrowerPost extends React.Component {
 
             <Form.Group as={Col} controlId="formGridAmount">
               <Form.Label>Produce Amount</Form.Label>
+              <InputGroup>
+                <Form.Control
+                  placeholder="Amount"
+                  onChange={(event) => {
+                    this.state.ammount = event.target.value;
+                    //   console.log(event.target.value);
+                  }}
+                />
+                <InputGroup.Append>
+                  <InputGroup.Text id="inputGroupAppend">lbs</InputGroup.Text>
+                </InputGroup.Append>
+              </InputGroup>
+            </Form.Group>
+          </Form.Row>
+
+          <Form.Row>
+            <Form.Group as={Col} controlId="formGridType">
+              <Form.Label>Produce Tyoe</Form.Label>
               <Form.Control
-                placeholder="Amount"
+                placeholder="Tyoe"
                 onChange={(event) => {
-                  this.state.ammount = event.target.value;
+                  this.state.produceType = event.target.value;
                   //   console.log(event.target.value);
                 }}
               />
@@ -150,7 +172,31 @@ class GrowerPost extends React.Component {
             </Form.Group>
           </Form.Row>
 
-          <Form.Group id="formGridCheckbox">
+          <Form.Row>
+            <Form.Group as={Col} controlId="formGridStartDate">
+              <Form.Label>Start Date</Form.Label>
+              <Form.Control
+                placeholder="MM/DD/YY"
+                onChange={(event) => {
+                  this.state.startDate = event.target.value;
+                  //   console.log(event.target.value);
+                }}
+              />
+            </Form.Group>
+
+            <Form.Group as={Col} controlId="fromGridEndDate">
+              <Form.Label>End Date</Form.Label>
+              <Form.Control
+                placeholder="MM/DD/YY"
+                onChange={(event) => {
+                  this.state.endDate = event.target.value;
+                  //   console.log(event.target.value);
+                }}
+              />
+            </Form.Group>
+          </Form.Row>
+
+          {/* <Form.Group id="formGridCheckbox">
             <Form.Check
               type="checkbox"
               label="3rd Party Transportation Required"
@@ -159,7 +205,7 @@ class GrowerPost extends React.Component {
                 // console.log(event.target.value);
               }}
             />
-          </Form.Group>
+          </Form.Group> */}
 
           <Button
             onClick={this.submitPost}

@@ -13,7 +13,7 @@ class PostDetails extends React.Component {
 
     var transportationHTML = "";
 
-    if (post.needTransport) {
+    if (post.needDistributor) {
       transportationHTML = "Requires 3rd-party transportation";
     }
 
@@ -39,7 +39,7 @@ class PostDetails extends React.Component {
           <Col>
             <div className="col-sm-12 my-auto text-center">
               <h6>Produce Price</h6>
-              <h3>${post.price}</h3>
+              <h3>${post.produceBudget}</h3>
             </div>
           </Col>
         </Row>
