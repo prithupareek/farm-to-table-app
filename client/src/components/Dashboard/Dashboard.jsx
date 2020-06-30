@@ -9,6 +9,7 @@ import NewPost from "./components/NewPost/NewPost";
 import NewPostBtn from "./components/NewPostBtn";
 import PostDetails from "./components/PostDetails/PostDetails";
 import SearchBar from "./components/SearchBar/SearchBar";
+import FilterBar from "./components/FilterBar/FilterBar";
 
 const emitter = require("../../util/emitter.js");
 
@@ -99,12 +100,15 @@ class Dashboard extends React.Component {
                   </div>
                 </Col>
               </Row>
-              <Row className="mt-2 mb-2 ml-5 mr-5">
+              <Row className="mt-2 mb-2 ml-3 mr-3">
                 <div className="col-sm-12 my-auto text-center">
                   <SearchBar></SearchBar>
                 </div>
               </Row>
               <Row className="flex-fill">
+                <Col xs="auto ml-5 mr-3 mt-2 mb-2 pt-2">
+                  <FilterBar posts={this.state.posts}></FilterBar>
+                </Col>
                 <Map posts={this.state.posts} action={this.markerHandler} />
               </Row>
             </Col>
