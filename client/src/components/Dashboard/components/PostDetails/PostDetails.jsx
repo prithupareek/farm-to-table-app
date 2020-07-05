@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 class PostDetails extends React.Component {
   constructor(props) {
     super();
-    console.log(props);
+    // console.log(props);
   }
 
   render() {

@@ -6,6 +6,8 @@ import Select from "react-select";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
+const emitter = require("../../../../util/emitter.js");
+
 const customStyles = {
   menu: (provided, state) => ({
     ...provided,
@@ -27,20 +29,30 @@ const customStyles = {
   },
 };
 
-const options = [
-  { value: "blues", label: "Blues" },
-  { value: "rock", label: "Rock" },
-  { value: "jazz", label: "Jazz" },
-];
-
 class FilterBar extends Component {
   constructor(props) {
     super(props);
-    console.log(props);
+    // console.log(props);
 
     this.state = {
       locations: [],
       types: [],
+      filters: {
+        states: [],
+        minPrice: "",
+        maxPrice: "",
+        types: [],
+        minQuan: "",
+        maxQuan: "",
+        minAval: "",
+        maxAval: "",
+      },
+    };
+
+    // emit a filter submit event
+    this.filter = (filter) => {
+      emitter.emit("filter submit", filter);
+      this.setState({ filters: filter });
     };
   }
 
@@ -49,7 +61,7 @@ class FilterBar extends Component {
     var types = new Set();
 
     this.props.posts.forEach((post) => {
-      console.log(post);
+      // console.log(post);
 
       locations.add({ value: post.state, label: post.state });
       types.add({ value: post.produceType, label: post.produceType });
@@ -74,6 +86,17 @@ class FilterBar extends Component {
               styles={customStyles}
               options={this.state.locations}
               isMulti
+              onChange={(event) => {
+                var states = [];
+                if (event != null) {
+                  event.forEach((item) => {
+                    states.push(item.value);
+                  });
+                }
+                var filter = JSON.parse(JSON.stringify(this.state.filters));
+                filter.states = Array.from(states);
+                this.filter(filter);
+              }}
             ></Select>
           </div>
         </Row>
@@ -90,7 +113,9 @@ class FilterBar extends Component {
                   placeholder="Min"
                   aria-describedby="inputGroupPrepend"
                   onChange={(event) => {
-                    // console.log(event.target.value);
+                    var filter = JSON.parse(JSON.stringify(this.state.filters));
+                    filter.minPrice = event.target.value;
+                    this.filter(filter);
                   }}
                 />
               </InputGroup>
@@ -104,8 +129,9 @@ class FilterBar extends Component {
                 <Form.Control
                   placeholder="Max"
                   onChange={(event) => {
-                    // this.state.ammount = event.target.value;
-                    //   console.log(event.target.value);
+                    var filter = JSON.parse(JSON.stringify(this.state.filters));
+                    filter.maxPrice = event.target.value;
+                    this.filter(filter);
                   }}
                 />
               </InputGroup>
@@ -118,12 +144,23 @@ class FilterBar extends Component {
             styles={customStyles}
             options={this.state.types}
             isMulti
+            onChange={(event) => {
+              var types = [];
+              if (event != null) {
+                event.forEach((item) => {
+                  types.push(item.value);
+                });
+              }
+              var filter = JSON.parse(JSON.stringify(this.state.filters));
+              filter.types = Array.from(types);
+              this.filter(filter);
+            }}
           ></Select>
         </Row>
         <Row>Quantity</Row>
         <Row>
           <Form>
-            <Form.Group as={Col} controlId="formGridProduceBudgetMin">
+            <Form.Group as={Col} controlId="formGridProduceQuantityMin">
               <InputGroup>
                 <InputGroup.Prepend>
                   <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
@@ -133,13 +170,15 @@ class FilterBar extends Component {
                   placeholder="Min"
                   aria-describedby="inputGroupPrepend"
                   onChange={(event) => {
-                    // console.log(event.target.value);
+                    var filter = JSON.parse(JSON.stringify(this.state.filters));
+                    filter.minQuan = event.target.value;
+                    this.filter(filter);
                   }}
                 />
               </InputGroup>
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridProduceBudgetMax">
+            <Form.Group as={Col} controlId="formGridProduceQuantityMax">
               <InputGroup>
                 <InputGroup.Prepend>
                   <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
@@ -147,8 +186,9 @@ class FilterBar extends Component {
                 <Form.Control
                   placeholder="Max"
                   onChange={(event) => {
-                    // this.state.ammount = event.target.value;
-                    //   console.log(event.target.value);
+                    var filter = JSON.parse(JSON.stringify(this.state.filters));
+                    filter.maxQuan = event.target.value;
+                    this.filter(filter);
                   }}
                 />
               </InputGroup>
@@ -159,32 +199,37 @@ class FilterBar extends Component {
         <Row>Avalibility</Row>
         <Row>
           <Form>
-            <Form.Group as={Col} controlId="formGridProduceBudgetMin">
+            <Form.Group as={Col} controlId="formGridAvalibilityMin">
               <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
-                </InputGroup.Prepend>
                 <Form.Control
                   type="text"
-                  placeholder="Min"
+                  placeholder="Start Date (MM/DD/YY)"
                   aria-describedby="inputGroupPrepend"
                   onChange={(event) => {
-                    // console.log(event.target.value);
+                    if (event.target.value.length == 8) {
+                      var filter = JSON.parse(
+                        JSON.stringify(this.state.filters)
+                      );
+                      filter.minAval = event.target.value;
+                      this.filter(filter);
+                    }
                   }}
                 />
               </InputGroup>
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridProduceBudgetMax">
+            <Form.Group as={Col} controlId="formGridAvalibilityMax">
               <InputGroup>
-                <InputGroup.Prepend>
-                  <InputGroup.Text id="inputGroupPrepend">$</InputGroup.Text>
-                </InputGroup.Prepend>
                 <Form.Control
-                  placeholder="Max"
+                  placeholder="End Date (MM/DD/YY)"
                   onChange={(event) => {
-                    // this.state.ammount = event.target.value;
-                    //   console.log(event.target.value);
+                    if (event.target.value.length == 8) {
+                      var filter = JSON.parse(
+                        JSON.stringify(this.state.filters)
+                      );
+                      filter.maxAval = event.target.value;
+                      this.filter(filter);
+                    }
                   }}
                 />
               </InputGroup>

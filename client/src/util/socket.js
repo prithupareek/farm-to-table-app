@@ -17,13 +17,13 @@ emitter.on("post submit", (postData) => {
   socket.emit("post submit", postData);
 });
 
-// when a search is made
-emitter.on("search submit", (query) => {
-  socket.emit("search submit", query);
-  // console.log(query);
+// when a search is made, or filter is added
+emitter.on("database query", (req) => {
+  socket.emit("database query", req);
+  // console.log(req);
 });
 
-socket.on("search result", (res) => {
-  emitter.emit("search result", res);
+socket.on("update posts", (res) => {
+  emitter.emit("update posts", res);
   // console.log(res);
 });

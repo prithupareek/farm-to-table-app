@@ -64,9 +64,36 @@ class Dashboard extends React.Component {
   }
 
   componentDidMount() {
-    emitter.on("search result", (res) => {
+    emitter.on("update posts", (res) => {
       this.setState({ posts: res });
-      console.log(this.state.posts);
+      // console.log(this.state.posts);
+    });
+
+    var filter = {
+      states: [],
+      minPrice: "",
+      maxPrice: "",
+      types: [],
+      minQuan: "",
+      maxQuan: "",
+      minAval: "",
+      maxAval: "",
+    };
+
+    var query = { query: "", accountType: this.props.user.accountType };
+
+    // when a search is made
+    emitter.on("search submit", (req) => {
+      query = JSON.parse(JSON.stringify(req));
+
+      emitter.emit("database query", { filter: filter, query: query });
+    });
+
+    // when a filter is added
+    emitter.on("filter submit", (req) => {
+      filter = JSON.parse(JSON.stringify(req));
+
+      emitter.emit("database query", { filter: filter, query: query });
     });
   }
 
@@ -102,12 +129,17 @@ class Dashboard extends React.Component {
               </Row>
               <Row className="mt-2 mb-2 ml-3 mr-3">
                 <div className="col-sm-12 my-auto text-center">
-                  <SearchBar></SearchBar>
+                  <SearchBar
+                    accountType={this.props.user.accountType}
+                  ></SearchBar>
                 </div>
               </Row>
               <Row className="flex-fill">
                 <Col xs="auto ml-5 mr-3 mt-2 mb-2 pt-2">
-                  <FilterBar posts={this.state.posts}></FilterBar>
+                  <FilterBar
+                    posts={this.state.posts}
+                    accountType={this.props.user.accountType}
+                  ></FilterBar>
                 </Col>
                 <Map posts={this.state.posts} action={this.markerHandler} />
               </Row>

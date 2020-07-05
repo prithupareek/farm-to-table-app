@@ -10,6 +10,10 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
 
+    // console.log(props);
+
+    // console.log(props.accountType);
+
     this.state = {
       query: "",
       showCancel: false,
@@ -17,9 +21,12 @@ class SearchBar extends Component {
 
     this.search = () => {
       if (!(this.state.query == "")) {
-        emitter.emit("search submit", this.state.query);
+        emitter.emit("search submit", {
+          query: this.state.query,
+          accountType: props.accountType,
+        });
         this.setState({ query: this.state.query, showCancel: true });
-        console.log(this.state);
+        // console.log(this.state);
       }
     };
 
@@ -28,8 +35,11 @@ class SearchBar extends Component {
       this.state.showCancel = false;
       this.setState({ query: "", showCancel: false });
       this.refs["search"].value = "";
-      emitter.emit("search submit", this.state.query);
-      console.log(this.state);
+      emitter.emit("search submit", {
+        query: this.state.query,
+        accountType: props.accountType,
+      });
+      // console.log(this.state);
     };
 
     // this.handleKeyPress = (target) => {

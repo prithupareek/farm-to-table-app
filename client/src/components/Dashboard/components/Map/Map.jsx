@@ -56,7 +56,7 @@ class Map extends React.Component {
   }
 
   componentWillReceiveProps(nextProps, nextContext) {
-    console.log(this.state);
+    // console.log(this.state);
     this.state.markers.forEach((marker) => {
       marker.remove();
     });
